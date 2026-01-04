@@ -48,33 +48,28 @@
             transition: background-color 0.4s ease, color 0.4s ease;
         }
 
-        /* --- AUTH OVERLAY (LANDING PAGE) --- */
+        /* --- AUTH OVERLAY --- */
         #authOverlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg-body); z-index: 2000;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            transition: opacity 0.5s ease;
         }
-        
         .auth-card {
             background: var(--bg-card); border: 1px solid var(--border); padding: 40px;
             border-radius: 16px; text-align: center; max-width: 400px; width: 90%;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
-
         .auth-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; background: linear-gradient(135deg, #fff, #888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .auth-desc { color: var(--text-muted); margin-bottom: 30px; font-size: 0.9rem; line-height: 1.5; }
-
         .btn-google-large {
             background: white; color: #333; font-weight: 600; padding: 14px; border-radius: 8px;
             width: 100%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;
-            font-size: 1rem; transition: transform 0.2s;
+            font-size: 1rem; margin-top: 20px; transition: transform 0.2s;
         }
-        .btn-google-large:hover { background: #f2f2f2; transform: translateY(-2px); }
-        .btn-google-large:active { transform: translateY(0); }
+        .btn-google-large:hover { transform: translateY(-2px); }
 
-        /* --- APP STRUCTURE --- */
-        #appContainer { display: flex; width: 100%; height: 100%; opacity: 0; transition: opacity 1s ease; } /* Hidden initially */
+        /* --- APP CONTAINER --- */
+        #appContainer { display: flex; width: 100%; height: 100%; opacity: 0; transition: opacity 1s ease; }
 
         /* --- SIDEBAR --- */
         .sidebar {
@@ -82,23 +77,20 @@
             padding: 20px; display: flex; flex-direction: column; gap: 15px; overflow-y: auto; z-index: 50;
             transition: transform 0.3s ease, background-color 0.4s;
         }
-
-        .logo-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
-        .logo { font-size: 1.2rem; font-weight: 800; letter-spacing: -0.5px; color: var(--text-main); margin: 0; line-height: 1.2; }
+        .logo-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .logo { font-size: 1.2rem; font-weight: 800; color: var(--text-main); margin: 0; }
 
         /* --- MAIN --- */
         .main {
-            flex: 1; display: flex; flex-direction: column; position: relative; height: 100%; overflow: hidden;
+            flex: 1; display: flex; flex-direction: column; height: 100%; overflow: hidden;
             background: var(--bg-body); transition: background-color 0.4s ease;
         }
-
         .header {
             padding: 15px 25px; border-bottom: 1px solid var(--border); background: var(--bg-body);
             display: flex; justify-content: space-between; align-items: center; z-index: 40; gap: 15px;
             transition: background-color 0.4s ease, border-color 0.4s ease;
         }
-
-        .header-logo { font-size: 1.1rem; font-weight: 800; letter-spacing: -0.5px; color: var(--text-main); white-space: nowrap; }
+        .header-logo { font-size: 1.1rem; font-weight: 800; color: var(--text-main); }
         .content { flex: 1; padding: 25px; overflow-y: auto; padding-bottom: 80px; }
 
         /* UI Elements */
@@ -111,6 +103,9 @@
             transition: all 0.3s;
         }
         input:focus, select:focus { border-color: var(--accent); }
+        
+        /* Auto-Capitalize Pair Input */
+        #inpPair { text-transform: uppercase; font-weight: 700; letter-spacing: 1px; }
 
         .toggle-box { background: var(--bg-input); padding: 4px; border-radius: var(--radius); display: flex; transition: background 0.3s; }
         .toggle-btn {
@@ -124,23 +119,18 @@
             background: var(--accent); color: white; border: none; padding: 12px; border-radius: var(--radius);
             font-weight: 600; cursor: pointer; width: 100%; margin-top: 10px; font-size: 0.95rem; transition: background 0.3s;
         }
-        .btn-primary:hover { background: var(--accent-hover); }
-
         .btn-text { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.8rem; }
-        .btn-text:hover { color: var(--text-main); }
-
-        /* Stats Grid */
+        
+        /* Stats & Table */
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 25px; }
         .card { 
             background: var(--bg-card); border: 1px solid var(--border); padding: 15px; border-radius: var(--radius); 
             box-shadow: var(--shadow); transition: all 0.3s;
         }
-        .stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
         .stat-val { font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-top: 5px; }
         .bar-bg { width: 100%; height: 4px; background: var(--border); margin-top: 8px; border-radius: 2px; }
         .bar-fill { height: 100%; width: 0%; transition: width 0.3s; border-radius: 2px; }
 
-        /* Table */
         .table-wrap { 
             background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); 
             overflow: hidden; box-shadow: var(--shadow); transition: all 0.3s;
@@ -150,17 +140,12 @@
         td { padding: 12px 15px; border-bottom: 1px solid var(--border); color: var(--text-muted); }
         tr:last-child td { border-bottom: none; }
         
-        [data-theme="light"] td { color: #374151; }
-        [data-theme="light"] th { color: #111827; font-weight: 700; }
-
         .mobile-list { display: none; flex-direction: column; gap: 10px; }
         .m-card { background: var(--bg-card); border: 1px solid var(--border); padding: 15px; border-radius: var(--radius); box-shadow: var(--shadow); }
         .m-row { display: flex; justify-content: space-between; margin-bottom: 5px; }
 
         .text-green { color: var(--success); } .text-red { color: var(--danger); }
         .badge { padding: 3px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; background: var(--border); color: var(--text-muted); }
-        .badge.LONG { background: rgba(34, 197, 94, 0.15); color: var(--success); }
-        .badge.SHORT { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
         .hidden { display: none !important; }
         
         /* Loading Overlay */
@@ -199,13 +184,13 @@
     <div id="authOverlay">
         <div class="auth-card">
             <h1 class="auth-title">Skill issues of Thevann</h1>
-            <p class="auth-desc">Your ultimate trading journal for Spot, Futures, and Forex. Track mistakes, analyze PnL, and master your psychology.</p>
-            
+            <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:20px;">
+                Your ultimate trading journal. Track every mistake, master your psychology.
+            </p>
             <button class="btn-google-large" onclick="signIn()">
                 <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#EA4335" d="M12 24c6.6 0 12-5.4 12-12s-5.4-12-12-12c-6.6 0-12 5.4-12 12s5.4 12 12 12z"/><path fill="#FFF" d="M12 20c-4.4 0-8-3.6-8-8s3.6-8 8-8c2.1 0 4.1.8 5.6 2.3l-2.9 2.9c-.7-.7-1.7-1.1-2.7-1.1-2.3 0-4.2 1.9-4.2 4.2s1.9 4.2 4.2 4.2c2.1 0 3.8-1.2 4.1-3h-4.1v-3.4h7.5c.1.5.1 1.1.1 1.7 0 4.4-3 7.5-7.6 7.5z"/></svg>
                 Continue with Google
             </button>
-            <div style="margin-top:20px; font-size:0.75rem; color:var(--text-muted);">Secure Cloud Sync Enabled</div>
         </div>
     </div>
 
@@ -214,7 +199,7 @@
         <aside class="sidebar" id="sidebar">
             <div class="logo-row">
                 <h1 class="logo">Skill issues of Thevann</h1>
-                <button class="sidebar-close-btn" onclick="toggleSidebar()">Close</button>
+                <button class="sidebar-close-btn" onclick="toggleSidebar()">✕</button>
             </div>
 
             <div style="padding-bottom:15px; border-bottom:1px solid var(--border); margin-bottom:15px; display:flex; justify-content:space-between; align-items:center;">
@@ -234,7 +219,10 @@
             <div class="form-group"><label>Date</label><input type="datetime-local" id="inpDate"></div>
 
             <div class="row">
-                <div class="form-group flex-1"><label>Pair</label><input type="text" id="inpPair" placeholder="BTC"></div>
+                <div class="form-group flex-1">
+                    <label>Pair</label>
+                    <input type="text" id="inpPair" placeholder="BTC" oninput="this.value = this.value.toUpperCase()">
+                </div>
                 <div class="form-group flex-1 fut-hidden hidden"><label>Lev (x)</label><input type="number" id="inpLev" value="10"></div>
             </div>
 
@@ -305,7 +293,7 @@
         import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, query, where, onSnapshot, deleteDoc, doc, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // YOUR CONFIG
+        // YOUR FIREBASE CONFIG
         const firebaseConfig = {
             apiKey: "AIzaSyD8sX4ucDUisTsF8TF8G5DFEbNudUYxAVc",
             authDomain: "skilli-issues-of-thevann.firebaseapp.com",
@@ -340,7 +328,7 @@
 
             currentUser = user;
             if (user) {
-                // LOGGED IN: Show App, Hide Auth
+                // LOGGED IN
                 authScreen.style.opacity = '0';
                 setTimeout(() => authScreen.style.display = 'none', 500);
                 
@@ -348,7 +336,7 @@
                 document.getElementById('userEmail').innerText = user.email;
                 listenToTrades();
             } else {
-                // LOGGED OUT: Show Auth, Hide App
+                // LOGGED OUT
                 authScreen.style.display = 'flex';
                 setTimeout(() => authScreen.style.opacity = '1', 10);
                 
