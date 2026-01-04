@@ -85,48 +85,60 @@
             .sidebar-close-btn { display: block; background: none; border: 1px solid var(--border); color: var(--text-main); padding: 5px 12px; border-radius: 4px; }
             .main { height: auto; min-height: 100vh; overflow: visible; }
             
-            /* FIXED HEADER LAYOUT */
+            /* FIXED HEADER LAYOUT (2 ROWS) */
             .header {
                 position: sticky; top: 0; 
                 padding: 10px 15px; 
-                display: grid; 
-                grid-template-columns: auto 1fr auto; /* Left Button | Middle Title | Right Nav */
-                gap: 10px;
+                display: flex; 
+                flex-wrap: wrap; /* Allows items to wrap to next line */
+                justify-content: space-between;
                 align-items: center;
+                gap: 10px;
             }
             
+            /* TOP ROW ITEMS */
             .mobile-toggle-btn { 
                 display: block; 
                 background: var(--accent); color: white; border: none; 
                 padding: 6px 12px; border-radius: 6px; font-weight: 600; font-size: 0.85rem;
-                white-space: nowrap;
+                flex: 0 0 auto; /* Don't stretch */
             }
 
             .header-logo {
-                font-size: 0.9rem; 
-                text-align: center; 
-                white-space: nowrap; 
-                overflow: hidden; 
-                text-overflow: ellipsis; /* Shrink title if needed */
+                font-size: 1rem; 
+                text-align: right; 
+                flex: 1; /* Pushes to the right */
             }
 
+            /* BOTTOM ROW (Nav Buttons) */
             .nav-group {
-                gap: 4px;
+                width: 100%; /* Forces new line */
+                order: 3; /* Ensures it is last */
+                justify-content: center; /* Centers the buttons */
+                border-top: 1px solid var(--border); /* Optional separator */
+                padding-top: 10px;
             }
+
             .nav-group button {
                 font-size: 1rem; background: none; border: 1px solid var(--border); 
-                color: var(--text-muted); width: 28px; height: 28px; border-radius: 4px; 
+                color: var(--text-muted); width: 32px; height: 32px; border-radius: 4px; 
                 padding: 0; display: flex; align-items: center; justify-content: center;
             }
+            
+            #dateDisplay { 
+                display: inline-block !important; /* Force show date */
+                margin: 0 10px;
+                font-size: 0.9rem;
+            }
+
             .today-btn {
-                font-size: 0.75rem; padding: 0 8px; height: 28px; 
+                font-size: 0.75rem; padding: 0 10px; height: 32px; 
                 border: 1px solid var(--accent) !important; color: var(--accent) !important;
             }
 
             .stats-grid { grid-template-columns: 1fr 1fr; }
             .table-wrap { display: none; }
             .mobile-list { display: flex; }
-            #dateDisplay { display: none; } /* Hide date text to save space */
         }
     </style>
 </head>
