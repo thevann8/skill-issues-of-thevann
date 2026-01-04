@@ -17,7 +17,6 @@
             --accent: #2563eb; --accent-hover: #1d4ed8;
             --success: #22c55e; --danger: #ef4444; --radius: 8px; --shadow: none;
         }
-        /* Themes */
         [data-theme="cyber"] { --bg-body: #0f0518; --bg-sidebar: #170826; --bg-card: #1e0b30; --bg-input: #290f42; --border: #4a1d75; --text-main: #e9d5ff; --text-muted: #a89bb8; --accent: #d946ef; --accent-hover: #c026d3; --success: #34d399; --danger: #fb7185; }
         [data-theme="forest"] { --bg-body: #01110a; --bg-sidebar: #011c11; --bg-card: #022c1b; --bg-input: #043826; --border: #064e3b; --text-main: #ecfdf5; --text-muted: #6ee7b7; --accent: #10b981; --accent-hover: #059669; --success: #4ade80; --danger: #f87171; }
         [data-theme="light"] { --bg-body: #f3f4f6; --bg-sidebar: #ffffff; --bg-card: #ffffff; --bg-input: #f9fafb; --border: #e5e7eb; --text-main: #111827; --text-muted: #6b7280; --accent: #2563eb; --accent-hover: #1d4ed8; --success: #16a34a; --danger: #dc2626; --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
@@ -25,81 +24,109 @@
         * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
         body { margin: 0; background-color: var(--bg-body); color: var(--text-main); font-family: 'Inter', sans-serif; height: 100vh; display: flex; overflow: hidden; transition: 0.4s; }
 
-        /* AUTH SCREEN */
-        #authOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-body); z-index: 2000; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.5s ease; overflow-y: auto; padding: 20px; }
-        
+        /* AUTH OVERLAY */
+        #authOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-body); z-index: 2000; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.5s ease; padding: 20px; overflow-y: auto; }
         .auth-card { background: var(--bg-card); border: 1px solid var(--border); padding: 30px; border-radius: 16px; text-align: center; max-width: 400px; width: 100%; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
         .auth-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 20px; color: var(--text-main); }
-        
-        /* Auth Tabs */
         .auth-tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
-        .auth-tab { flex: 1; padding: 10px; background: none; border: none; color: var(--text-muted); font-weight: 600; cursor: pointer; border-bottom: 2px solid transparent; transition: 0.3s; }
+        .auth-tab { flex: 1; padding: 10px; background: none; border: none; color: var(--text-muted); font-weight: 600; cursor: pointer; border-bottom: 2px solid transparent; }
         .auth-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
-
-        /* Auth Inputs */
-        .auth-input { background: var(--bg-input); border: 1px solid var(--border); color: var(--text-main); padding: 12px; border-radius: 8px; width: 100%; margin-bottom: 10px; font-size: 0.95rem; }
-        .auth-input:focus { border-color: var(--accent); }
-        
-        .btn-auth { background: var(--accent); color: white; padding: 12px; border-radius: 8px; font-weight: 600; width: 100%; border: none; cursor: pointer; margin-top: 10px; font-size: 1rem; transition: 0.2s; }
-        .btn-auth:hover { background: var(--accent-hover); }
-
-        .btn-google-large { background: white; color: #333; font-weight: 600; padding: 12px; border-radius: 8px; width: 100%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 0.95rem; margin-top: 15px; }
-        .btn-google-large:hover { background: #f2f2f2; }
-
+        .auth-input { background: var(--bg-input); border: 1px solid var(--border); color: var(--text-main); padding: 12px; border-radius: 8px; width: 100%; margin-bottom: 10px; }
+        .btn-auth { background: var(--accent); color: white; padding: 12px; border-radius: 8px; font-weight: 600; width: 100%; border: none; cursor: pointer; margin-top: 10px; }
+        .btn-google-large { background: white; color: #333; font-weight: 600; padding: 12px; border-radius: 8px; width: 100%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 15px; }
         .forgot-pass { color: var(--text-muted); font-size: 0.8rem; margin-top: 15px; cursor: pointer; text-decoration: underline; display: block; }
-        .forgot-pass:hover { color: var(--text-main); }
 
-        /* --- APP STRUCTURE --- */
+        /* APP */
         #appContainer { display: flex; width: 100%; height: 100%; opacity: 0; transition: opacity 1s ease; }
         .sidebar { width: 350px; background: var(--bg-sidebar); border-right: 1px solid var(--border); padding: 20px; display: flex; flex-direction: column; gap: 15px; overflow-y: auto; z-index: 50; transition: 0.3s; }
-        .logo { font-size: 1.2rem; font-weight: 800; color: var(--text-main); margin: 0; }
         .main { flex: 1; display: flex; flex-direction: column; height: 100%; overflow: hidden; background: var(--bg-body); transition: 0.4s; }
-        .header { padding: 15px 25px; border-bottom: 1px solid var(--border); background: var(--bg-body); display: flex; justify-content: space-between; align-items: center; z-index: 40; transition: 0.4s; }
+        
+        /* HEADER - Desktop Default */
+        .header { padding: 15px 25px; border-bottom: 1px solid var(--border); background: var(--bg-body); display: flex; justify-content: space-between; align-items: center; z-index: 40; }
+        .header-logo { font-size: 1.1rem; font-weight: 800; color: var(--text-main); }
+        .nav-group { display: flex; gap: 5px; align-items: center; }
+
+        /* CONTENT */
         .content { flex: 1; padding: 25px; overflow-y: auto; padding-bottom: 80px; }
-
-        .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; }
-        label { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
-        input, select { background: var(--bg-input); border: 1px solid var(--border); color: var(--text-main); padding: 10px 12px; border-radius: var(--radius); width: 100%; transition: all 0.3s; }
-        
-        .toggle-box { background: var(--bg-input); padding: 4px; border-radius: var(--radius); display: flex; }
-        .toggle-btn { flex: 1; background: transparent; border: none; color: var(--text-muted); padding: 8px; font-weight: 600; border-radius: 6px; cursor: pointer; }
-        .toggle-btn.active { background: var(--border); color: var(--text-main); }
-        [data-theme="light"] .toggle-btn.active { background: #fff; color: var(--accent); }
-
-        .btn-primary { background: var(--accent); color: white; border: none; padding: 12px; border-radius: var(--radius); font-weight: 600; cursor: pointer; width: 100%; margin-top: 10px; }
-        
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 25px; }
-        .card { background: var(--bg-card); border: 1px solid var(--border); padding: 15px; border-radius: var(--radius); transition: all 0.3s; }
+        .card { background: var(--bg-card); border: 1px solid var(--border); padding: 15px; border-radius: var(--radius); }
         .stat-val { font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-top: 5px; }
         .bar-bg { width: 100%; height: 4px; background: var(--border); margin-top: 8px; border-radius: 2px; }
         .bar-fill { height: 100%; width: 0%; transition: width 0.3s; border-radius: 2px; }
 
+        /* TABLE & LISTS */
         .table-wrap { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
         table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
         th, td { padding: 12px 15px; border-bottom: 1px solid var(--border); text-align: left; color: var(--text-muted); }
+        .mobile-list { display: none; flex-direction: column; gap: 10px; }
+        .m-card { background: var(--bg-card); border: 1px solid var(--border); padding: 15px; border-radius: var(--radius); }
+
+        /* UTILS */
         .text-green { color: var(--success); } .text-red { color: var(--danger); }
         .badge { padding: 3px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; background: var(--border); color: var(--text-muted); }
         .hidden { display: none !important; }
-        
-        #loadingOverlay { position: fixed; top:0; left:0; width:100%; height:100%; background: var(--bg-body); z-index: 3000; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; font-weight: bold; color: var(--text-main); transition: opacity 0.5s; }
-        
-        .sidebar-close-btn { display: none; }
-        .mobile-list { display: none; flex-direction: column; gap: 10px; }
-        .m-card { background: var(--bg-card); border: 1px solid var(--border); padding: 15px; border-radius: var(--radius); }
-        .mobile-toggle-btn { display: none; }
+        .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; }
+        label { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+        input, select { background: var(--bg-input); border: 1px solid var(--border); color: var(--text-main); padding: 10px; border-radius: 8px; width: 100%; }
+        .toggle-box { background: var(--bg-input); padding: 4px; border-radius: var(--radius); display: flex; }
+        .toggle-btn { flex: 1; background: transparent; border: none; color: var(--text-muted); padding: 8px; font-weight: 600; border-radius: 6px; cursor: pointer; }
+        .toggle-btn.active { background: var(--border); color: var(--text-main); }
+        .btn-primary { background: var(--accent); color: white; border: none; padding: 12px; border-radius: var(--radius); font-weight: 600; cursor: pointer; width: 100%; margin-top: 10px; }
+        .sidebar-close-btn, .mobile-toggle-btn { display: none; }
 
+        /* LOADING */
+        #loadingOverlay { position: fixed; top:0; left:0; width:100%; height:100%; background: var(--bg-body); z-index: 3000; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; font-weight: bold; color: var(--text-main); transition: opacity 0.5s; }
+
+        /* --- MOBILE FIXES --- */
         @media (max-width: 900px) {
             body { flex-direction: column; }
             .sidebar { position: fixed; top: 0; left: 0; width: 100%; height: 100%; transform: translateY(100%); }
             .sidebar.open { transform: translateY(0); }
             .sidebar-close-btn { display: block; background: none; border: 1px solid var(--border); color: var(--text-main); padding: 5px 12px; border-radius: 4px; }
             .main { height: auto; min-height: 100vh; overflow: visible; }
-            .header { position: sticky; top: 0; }
+            
+            /* FIXED HEADER LAYOUT */
+            .header {
+                position: sticky; top: 0; 
+                padding: 10px 15px; 
+                display: grid; 
+                grid-template-columns: auto 1fr auto; /* Left Button | Middle Title | Right Nav */
+                gap: 10px;
+                align-items: center;
+            }
+            
+            .mobile-toggle-btn { 
+                display: block; 
+                background: var(--accent); color: white; border: none; 
+                padding: 6px 12px; border-radius: 6px; font-weight: 600; font-size: 0.85rem;
+                white-space: nowrap;
+            }
+
+            .header-logo {
+                font-size: 0.9rem; 
+                text-align: center; 
+                white-space: nowrap; 
+                overflow: hidden; 
+                text-overflow: ellipsis; /* Shrink title if needed */
+            }
+
+            .nav-group {
+                gap: 4px;
+            }
+            .nav-group button {
+                font-size: 1rem; background: none; border: 1px solid var(--border); 
+                color: var(--text-muted); width: 28px; height: 28px; border-radius: 4px; 
+                padding: 0; display: flex; align-items: center; justify-content: center;
+            }
+            .today-btn {
+                font-size: 0.75rem; padding: 0 8px; height: 28px; 
+                border: 1px solid var(--accent) !important; color: var(--accent) !important;
+            }
+
             .stats-grid { grid-template-columns: 1fr 1fr; }
             .table-wrap { display: none; }
             .mobile-list { display: flex; }
-            .mobile-toggle-btn { display: block; background: var(--accent); color: white; border: none; padding: 8px 16px; border-radius: 6px; }
-            #dateDisplay { display: none; } 
+            #dateDisplay { display: none; } /* Hide date text to save space */
         }
     </style>
 </head>
@@ -110,29 +137,24 @@
     <div id="authOverlay">
         <div class="auth-card">
             <h1 class="auth-title">Skill issues of Thevann</h1>
-            
             <div class="auth-tabs">
                 <button class="auth-tab active" onclick="switchAuth('login')" id="tabLogin">Login</button>
                 <button class="auth-tab" onclick="switchAuth('register')" id="tabRegister">Register</button>
             </div>
-
             <div id="loginForm">
                 <input type="email" id="loginEmail" class="auth-input" placeholder="Email Address">
                 <input type="password" id="loginPass" class="auth-input" placeholder="Password">
                 <button class="btn-auth" onclick="emailLogin()">Log In</button>
                 <span class="forgot-pass" onclick="resetPassword()">Forgot Password?</span>
             </div>
-
             <div id="registerForm" class="hidden">
                 <input type="email" id="regEmail" class="auth-input" placeholder="Email Address">
                 <input type="password" id="regPass" class="auth-input" placeholder="Create Password">
                 <button class="btn-auth" onclick="emailRegister()">Create Account</button>
             </div>
-
             <div style="margin: 20px 0; border-top: 1px solid var(--border); position: relative;">
                 <span style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: var(--bg-card); padding: 0 10px; color: var(--text-muted); font-size: 0.8rem;">OR</span>
             </div>
-
             <button class="btn-google-large" onclick="googleSignIn()">
                 <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#EA4335" d="M12 24c6.6 0 12-5.4 12-12s-5.4-12-12-12c-6.6 0-12 5.4-12 12s5.4 12 12 12z"/><path fill="#FFF" d="M12 20c-4.4 0-8-3.6-8-8s3.6-8 8-8c2.1 0 4.1.8 5.6 2.3l-2.9 2.9c-.7-.7-1.7-1.1-2.7-1.1-2.3 0-4.2 1.9-4.2 4.2s1.9 4.2 4.2 4.2c2.1 0 3.8-1.2 4.1-3h-4.1v-3.4h7.5c.1.5.1 1.1.1 1.7 0 4.4-3 7.5-7.6 7.5z"/></svg>
                 Continue with Google
@@ -150,18 +172,9 @@
                 <span id="userEmail" style="font-size:0.8rem; color:var(--text-muted);">...</span>
                 <button onclick="logOut()" style="font-size:0.75rem; color:var(--danger); background:none; border:none; cursor:pointer;">Log Out</button>
             </div>
-            <div class="form-group"><label>Market Type</label>
-                <div class="toggle-box">
-                    <button class="toggle-btn active" id="btnSpot" onclick="setMode('SPOT')">Spot</button>
-                    <button class="toggle-btn" id="btnFut" onclick="setMode('FUTURES')">Futures</button>
-                    <button class="toggle-btn" id="btnForex" onclick="setMode('FOREX')">Forex</button>
-                </div>
-            </div>
+            <div class="form-group"><label>Market Type</label><div class="toggle-box"><button class="toggle-btn active" id="btnSpot" onclick="setMode('SPOT')">Spot</button><button class="toggle-btn" id="btnFut" onclick="setMode('FUTURES')">Futures</button><button class="toggle-btn" id="btnForex" onclick="setMode('FOREX')">Forex</button></div></div>
             <div class="form-group"><label>Date</label><input type="datetime-local" id="inpDate"></div>
-            <div class="row">
-                <div class="form-group flex-1"><label>Pair</label><input type="text" id="inpPair" placeholder="BTC" oninput="this.value = this.value.toUpperCase()"></div>
-                <div class="form-group flex-1 fut-hidden hidden"><label>Lev (x)</label><input type="number" id="inpLev" value="10"></div>
-            </div>
+            <div class="row"><div class="form-group flex-1"><label>Pair</label><input type="text" id="inpPair" placeholder="BTC" oninput="this.value = this.value.toUpperCase()"></div><div class="form-group flex-1 fut-hidden hidden"><label>Lev (x)</label><input type="number" id="inpLev" value="10"></div></div>
             <div class="form-group fut-hidden hidden"><label>Side</label><select id="inpSide"><option value="LONG">Long (Buy)</option><option value="SHORT">Short (Sell)</option></select></div>
             <div class="form-group"><label id="lblSize">Invested ($)</label><input type="number" id="inpSize" placeholder="0.00"></div>
             <div class="row"><div class="form-group flex-1"><label>Entry</label><input type="number" id="inpEntry" step="any"></div><div class="form-group flex-1"><label>Exit</label><input type="number" id="inpExit" step="any"></div></div>
@@ -175,12 +188,12 @@
         <main class="main">
             <header class="header">
                 <button class="mobile-toggle-btn" onclick="toggleSidebar()">+ Add</button>
-                <div class="header-logo" style="font-weight:800; color:var(--text-main);">Skill issues of Thevann</div> 
-                <div style="display:flex; gap:5px; margin-left:auto; align-items:center;">
-                    <button onclick="changeMonth(-1)" style="font-size:1.2rem; background:none; border:none; color:var(--text-muted); cursor:pointer;">&lt;</button>
+                <div class="header-logo">Skill issues of Thevann</div> 
+                <div class="nav-group">
+                    <button onclick="changeMonth(-1)">&lt;</button>
                     <span id="dateDisplay" style="font-weight:700; font-size:0.9rem; min-width:80px; text-align:center;">...</span>
-                    <button onclick="changeMonth(1)" style="font-size:1.2rem; background:none; border:none; color:var(--text-muted); cursor:pointer;">&gt;</button>
-                    <button onclick="goToToday()" class="today-btn" style="border:1px solid var(--accent); color:var(--accent); background:none; padding:4px 8px; border-radius:4px; font-weight:600; cursor:pointer; margin-left:5px;">Today</button>
+                    <button onclick="changeMonth(1)">&gt;</button>
+                    <button onclick="goToToday()" class="today-btn">Today</button>
                     <select id="filter" onchange="render()" style="width:auto; margin-left:5px; padding:4px 8px; height:30px; display:none;"><option value="ALL">All</option><option value="SPOT">Spot</option><option value="FUTURES">Fut</option><option value="FOREX">Forex</option></select>
                 </div>
             </header>
@@ -203,7 +216,6 @@
         import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, query, where, onSnapshot, deleteDoc, doc, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // CONFIG
         const firebaseConfig = {
             apiKey: "AIzaSyD8sX4ucDUisTsF8TF8G5DFEbNudUYxAVc",
             authDomain: "skilli-issues-of-thevann.firebaseapp.com",
@@ -224,7 +236,6 @@
         let viewDate = new Date();
         let mode = 'SPOT';
 
-        // --- AUTH FUNCTIONS ---
         window.switchAuth = (tab) => {
             document.getElementById('tabLogin').classList.toggle('active', tab === 'login');
             document.getElementById('tabRegister').classList.toggle('active', tab === 'register');
@@ -233,32 +244,20 @@
         };
 
         window.googleSignIn = () => signInWithPopup(auth, provider).catch(e => alert(e.message));
-        
         window.emailLogin = () => {
             const email = document.getElementById('loginEmail').value;
             const pass = document.getElementById('loginPass').value;
-            if(!email || !pass) return alert("Enter email and password");
             signInWithEmailAndPassword(auth, email, pass).catch(e => alert(e.message));
         };
-
         window.emailRegister = () => {
             const email = document.getElementById('regEmail').value;
             const pass = document.getElementById('regPass').value;
-            if(!email || !pass) return alert("Enter email and password");
-            createUserWithEmailAndPassword(auth, email, pass)
-                .then(() => alert("Account Created! You are logged in."))
-                .catch(e => alert(e.message));
+            createUserWithEmailAndPassword(auth, email, pass).then(()=>alert("Account Created!")).catch(e => alert(e.message));
         };
-
         window.resetPassword = () => {
-            const email = prompt("Enter your email to reset password:");
-            if(email) {
-                sendPasswordResetEmail(auth, email)
-                    .then(() => alert("Reset link sent! Check your email."))
-                    .catch(e => alert(e.message));
-            }
+            const email = prompt("Enter email for reset:");
+            if(email) sendPasswordResetEmail(auth, email).then(()=>alert("Sent!")).catch(e=>alert(e.message));
         };
-
         window.logOut = () => signOut(auth);
 
         onAuthStateChanged(auth, (user) => {
@@ -278,7 +277,6 @@
             }
         });
 
-        // --- DATA & UI ---
         function listenToTrades() {
             if(!currentUser) return;
             const q = query(collection(db, "trades"), where("uid", "==", currentUser.uid), orderBy("date", "desc"));
@@ -337,7 +335,6 @@
             else { futEls.forEach(el => el.classList.remove('hidden')); levEl.classList.add('hidden'); document.getElementById('lblSize').innerText="Lots"; document.getElementById('inpSize').placeholder="1.0"; }
         };
 
-        // Theme
         const themes = ['midnight', 'cyber', 'forest', 'light'];
         let tIdx = 0;
         if(localStorage.getItem('theme')) tIdx = themes.indexOf(localStorage.getItem('theme'));
