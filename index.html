@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Skill issues of Thevann</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* 1. MIDNIGHT THEME (Default) */
+            --bg-body: #050507; --bg-sidebar: #0a0a0a; --bg-card: #111111; --bg-input: #1a1a1a;
+            --border: #2a2a2a; --text-main: #ededed; --text-muted: #888888;
+            --accent: #2563eb; --accent-hover: #1d4ed8;
+            --success: #22c55e; --danger: #ef4444; --radius: 8px; --shadow: none;
+        }
+
+        /* 2. CYBER THEME */
+        [data-theme="cyber"] {
+            --bg-body: #0f0518; --bg-sidebar: #170826; --bg-card: #1e0b30; --bg-input: #290f42;
+            --border: #4a1d75; --text-main: #e9d5ff; --text-muted: #a89bb8;
+            --accent: #d946ef; --accent-hover: #c026d3; --success: #34d399; --danger: #fb7185;
+        }
+
+        /* 3. FOREST THEME */
+        [data-theme="forest"] {
+            --bg-body: #01110a; --bg-sidebar: #011c11; --bg-card: #022c1b; --bg-input: #043826;
+            --border: #064e3b; --text-main: #ecfdf5; --text-muted: #6ee7b7;
+            --accent: #10b981; --accent-hover: #059669; --success: #4ade80; --danger: #f87171;
+        }
+
+        /* 4. DAY THEME */
+        [data-theme="light"] {
+            --bg-body: #f3f4f6; --bg-sidebar: #ffffff; --bg-card: #ffffff; --bg-input: #f9fafb;
+            --border: #e5e7eb; --text-main: #111827; --text-muted: #6b7280;
+            --accent: #2563eb; --accent-hover: #1d4ed8; --success: #16a34a; --danger: #dc2626;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            margin: 0; background-color: var(--bg-body); color: var(--text-main);
+            font-family: 'Inter', sans-serif; height: 100vh; display: flex; overflow: hidden;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* --- AUTH OVERLAY (LANDING PAGE) --- */
+        #authOverlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-body); z-index: 2000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .auth-card {
+            background: var(--bg-card); border: 1px solid var(--border); padding: 40px;
+            border-radius: 16px; text-align: center; max-width: 400px; width: 90%;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .auth-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; background: linear-gradient(135deg, #fff, #888); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .auth-desc { color: var(--text-muted); margin-bottom: 30px; font-size: 0.9rem; line-height: 1.5; }
+
+        .btn-google-large {
+            background: white; color: #333; font-weight: 600; padding: 14px; border-radius: 8px;
+            width: 100%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;
+            font-size: 1rem; transition: transform 0.2s;
+        }
+        .btn-google-large:hover { background: #f2f2f2; transform: translateY(-2px); }
+        .btn-google-large:active { transform: translateY(0); }
+
+        /* --- APP STRUCTURE --- */
+        #appContainer { display: flex; width: 100%; height: 100%; opacity: 0; transition: opacity 1s ease; } /* Hidden initially */
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: 350px; background: var(--bg-sidebar); border-right: 1px solid var(--border);
+            padding: 20px; display: flex; flex-direction: column; gap: 15px; overflow-y: auto; z-index: 50;
+            transition: transform 0.3s ease, background-color 0.4s;
+        }
+
+        .logo-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+        .logo { font-size: 1.2rem; font-weight: 800; letter-spacing: -0.5px; color: var(--text-main); margin: 0; line-height: 1.2; }
+
+        /* --- MAIN --- */
+        .main {
+            flex: 1; display: flex; flex-direction: column; position: relative; height: 100%; overflow: hidden;
+            background: var(--bg-body); transition: background-color 0.4s ease;
+        }
+
+        .header {
+            padding: 15px 25px; border-bottom: 1px solid var(--border); background: var(--bg-body);
+            display: flex; justify-content: space-between; align-items: center; z-index: 40; gap: 15px;
+            transition: background-color 0.4s ease, border-color 0.4s ease;
+        }
+
+        .header-logo { font-size: 1.1rem; font-weight: 800; letter-spacing: -0.5px; color: var(--text-main); white-space: nowrap; }
+        .content { flex: 1; padding: 25px; overflow-y: auto; padding-bottom: 80px; }
+
+        /* UI Elements */
+        .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; }
+        label { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+        
+        input, select {
+            background: var(--bg-input); border: 1px solid var(--border); color: var(--text-main);
+            padding: 10px 12px; border-radius: var(--radius); font-family: inherit; font-size: 0.9rem; width: 100%;
+            transition: all 0.3s;
+        }
+        input:focus, select:focus { border-color: var(--accent); }
+
+        .toggle-box { background: var(--bg-input); padding: 4px; border-radius: var(--radius); display: flex; transition: background 0.3s; }
+        .toggle-btn {
+            flex: 1; background: transparent; border: none; color: var(--text-muted); padding: 8px; font-weight: 600;
+            font-size: 0.8rem; border-radius: 6px; cursor: pointer; transition: all 0.3s;
+        }
+        .toggle-btn.active { background: var(--border); color: var(--text-main); }
+        [data-theme="light"] .toggle-btn.active { background: #fff; color: var(--accent); box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+
+        .btn-primary {
+            background: var(--accent); color: white; border: none; padding: 12px; border-radius: var(--radius);
+            font-weight: 600; cursor: pointer; width: 100%; margin-top: 10px; font-size: 0.95rem; transition: background 0.3s;
+        }
+        .btn-primary:hover { background: var(--accent-hover); }
+
+        .btn-text { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.8rem; }
+        .btn-text:hover { color: var(--text-main); }
+
+        /* Stats Grid */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .card { 
+            background: var(--bg-card); border: 1px solid var(--border); padding: 15px; border-radius: var(--radius); 
+            box-shadow: var(--shadow); transition: all 0.3s;
+        }
+        .stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
+        .stat-val { font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-top: 5px; }
+        .bar-bg { width: 100%; height: 4px; background: var(--border); margin-top: 8px; border-radius: 2px; }
+        .bar-fill { height: 100%; width: 0%; transition: width 0.3s; border-radius: 2px; }
+
+        /* Table */
+        .table-wrap { 
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); 
+            overflow: hidden; box-shadow: var(--shadow); transition: all 0.3s;
+        }
+        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        th { text-align: left; padding: 12px 15px; color: var(--text-muted); font-size: 0.75rem; border-bottom: 1px solid var(--border); }
+        td { padding: 12px 15px; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+        tr:last-child td { border-bottom: none; }
+        
+        [data-theme="light"] td { color: #374151; }
+        [data-theme="light"] th { color: #111827; font-weight: 700; }
+
+        .mobile-list { display: none; flex-direction: column; gap: 10px; }
+        .m-card { background: var(--bg-card); border: 1px solid var(--border); padding: 15px; border-radius: var(--radius); box-shadow: var(--shadow); }
+        .m-row { display: flex; justify-content: space-between; margin-bottom: 5px; }
+
+        .text-green { color: var(--success); } .text-red { color: var(--danger); }
+        .badge { padding: 3px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; background: var(--border); color: var(--text-muted); }
+        .badge.LONG { background: rgba(34, 197, 94, 0.15); color: var(--success); }
+        .badge.SHORT { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+        .hidden { display: none !important; }
+        
+        /* Loading Overlay */
+        #loadingOverlay {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background: var(--bg-body); z-index: 3000;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 1.2rem; font-weight: bold; color: var(--text-main);
+            transition: opacity 0.5s;
+        }
+
+        /* Responsive */
+        .mobile-toggle-btn { display: none; }
+        .sidebar-close-btn { display: none; }
+        
+        @media (max-width: 900px) {
+            body { flex-direction: column; overflow-y: auto; }
+            .sidebar { position: fixed; top: 0; left: 0; width: 100%; height: 100%; transform: translateY(100%); transition: transform 0.25s ease-in-out; }
+            .sidebar.open { transform: translateY(0); }
+            .sidebar-close-btn { display: block; background: none; border: 1px solid var(--border); color: var(--text-main); padding: 5px 12px; border-radius: 4px; }
+            .main { height: auto; min-height: 100vh; overflow: visible; }
+            .header { position: sticky; top: 0; padding: 12px 15px; flex-wrap: nowrap; gap: 10px; }
+            .header-logo { display: block !important; font-size: 0.9rem; flex-shrink: 0; } 
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .table-wrap { display: none; }
+            .mobile-list { display: flex; }
+            .mobile-toggle-btn { display: block; background: var(--accent); color: white; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; font-size: 0.85rem; }
+            #dateDisplay { display: none; } 
+        }
+    </style>
+</head>
+<body data-theme="midnight">
+
+    <div id="loadingOverlay">Initializing...</div>
+
+    <div id="authOverlay">
+        <div class="auth-card">
+            <h1 class="auth-title">Skill issues of Thevann</h1>
+            <p class="auth-desc">Your ultimate trading journal for Spot, Futures, and Forex. Track mistakes, analyze PnL, and master your psychology.</p>
+            
+            <button class="btn-google-large" onclick="signIn()">
+                <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#EA4335" d="M12 24c6.6 0 12-5.4 12-12s-5.4-12-12-12c-6.6 0-12 5.4-12 12s5.4 12 12 12z"/><path fill="#FFF" d="M12 20c-4.4 0-8-3.6-8-8s3.6-8 8-8c2.1 0 4.1.8 5.6 2.3l-2.9 2.9c-.7-.7-1.7-1.1-2.7-1.1-2.3 0-4.2 1.9-4.2 4.2s1.9 4.2 4.2 4.2c2.1 0 3.8-1.2 4.1-3h-4.1v-3.4h7.5c.1.5.1 1.1.1 1.7 0 4.4-3 7.5-7.6 7.5z"/></svg>
+                Continue with Google
+            </button>
+            <div style="margin-top:20px; font-size:0.75rem; color:var(--text-muted);">Secure Cloud Sync Enabled</div>
+        </div>
+    </div>
+
+    <div id="appContainer">
+        
+        <aside class="sidebar" id="sidebar">
+            <div class="logo-row">
+                <h1 class="logo">Skill issues of Thevann</h1>
+                <button class="sidebar-close-btn" onclick="toggleSidebar()">Close</button>
+            </div>
+
+            <div style="padding-bottom:15px; border-bottom:1px solid var(--border); margin-bottom:15px; display:flex; justify-content:space-between; align-items:center;">
+                <span id="userEmail" style="font-size:0.8rem; color:var(--text-muted);">user@email.com</span>
+                <button onclick="logOut()" style="font-size:0.75rem; color:var(--danger); background:none; border:none; cursor:pointer;">Log Out</button>
+            </div>
+
+            <div class="form-group">
+                <label>Market Type</label>
+                <div class="toggle-box">
+                    <button class="toggle-btn active" id="btnSpot" onclick="setMode('SPOT')">Spot</button>
+                    <button class="toggle-btn" id="btnFut" onclick="setMode('FUTURES')">Futures</button>
+                    <button class="toggle-btn" id="btnForex" onclick="setMode('FOREX')">Forex</button>
+                </div>
+            </div>
+
+            <div class="form-group"><label>Date</label><input type="datetime-local" id="inpDate"></div>
+
+            <div class="row">
+                <div class="form-group flex-1"><label>Pair</label><input type="text" id="inpPair" placeholder="BTC"></div>
+                <div class="form-group flex-1 fut-hidden hidden"><label>Lev (x)</label><input type="number" id="inpLev" value="10"></div>
+            </div>
+
+            <div class="form-group fut-hidden hidden">
+                <label>Side</label>
+                <select id="inpSide"><option value="LONG">Long (Buy)</option><option value="SHORT">Short (Sell)</option></select>
+            </div>
+
+            <div class="form-group"><label id="lblSize">Invested ($)</label><input type="number" id="inpSize" placeholder="0.00"></div>
+
+            <div class="row">
+                <div class="form-group flex-1"><label>Entry</label><input type="number" id="inpEntry" step="any"></div>
+                <div class="form-group flex-1"><label>Exit</label><input type="number" id="inpExit" step="any"></div>
+            </div>
+
+            <div class="row">
+                <div class="form-group flex-1"><label>Take Profit</label><input type="number" id="inpTP" placeholder="Optional" step="any"></div>
+                <div class="form-group flex-1"><label>Stop Loss</label><input type="number" id="inpSL" placeholder="Optional" step="any"></div>
+            </div>
+
+            <div class="form-group"><label>Setup / Reason</label><input type="text" id="inpReason" placeholder="Mistake?"></div>
+
+            <button class="btn-primary" onclick="addTrade()">Save to Cloud ☁️</button>
+
+            <button class="btn-text" onclick="cycleTheme()" style="margin-top:20px; width:100%; border:1px solid var(--border); padding:10px; border-radius:6px;">
+                <span id="themeIcon">🎨</span> Theme <span id="themeName" style="opacity:0.5">(Midnight)</span>
+            </button>
+        </aside>
+
+        <main class="main">
+            <header class="header">
+                <button class="mobile-toggle-btn" onclick="toggleSidebar()">+ Add</button>
+                <div class="header-logo" style="font-weight:800; color:var(--text-main);">Skill issues of Thevann</div> 
+                
+                <div style="display:flex; gap:5px; margin-left:auto; align-items:center;">
+                    <button onclick="changeMonth(-1)" class="btn-text" style="font-size:1.2rem;">&lt;</button>
+                    <span id="dateDisplay" style="font-weight:700; font-size:0.9rem; min-width:80px; text-align:center;">...</span>
+                    <button onclick="changeMonth(1)" class="btn-text" style="font-size:1.2rem;">&gt;</button>
+                    <button onclick="goToToday()" class="today-btn">Today</button>
+                    <select id="filter" onchange="render()" style="width:auto; margin-left:5px; padding:4px 8px; height:30px; display:none;">
+                        <option value="ALL">All</option><option value="SPOT">Spot</option><option value="FUTURES">Fut</option><option value="FOREX">Forex</option>
+                    </select>
+                </div>
+            </header>
+
+            <div class="content">
+                <div class="stats-grid">
+                    <div class="card"><div class="stat-label">Net PnL</div><div class="stat-val" id="s_pnl">$0</div></div>
+                    <div class="card"><div class="stat-label">Win Rate</div><div class="stat-val" id="s_wr">0%</div><div class="bar-bg"><div class="bar-fill" id="wr_bar"></div></div></div>
+                    <div class="card"><div class="stat-label">Spot PnL</div><div class="stat-val" id="s_spot">$0</div></div>
+                    <div class="card"><div class="stat-label">Futures PnL</div><div class="stat-val" id="s_fut">$0</div></div>
+                    <div class="card"><div class="stat-label">Forex PnL</div><div class="stat-val" id="s_forex">$0</div></div>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>DATE</th><th>PAIR</th><th>TYPE</th><th>TP/SL</th><th>ENTRY</th><th>EXIT</th><th>PNL</th><th></th></tr></thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+                <div class="mobile-list" id="mobileList"></div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, query, where, onSnapshot, deleteDoc, doc, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // YOUR CONFIG
+        const firebaseConfig = {
+            apiKey: "AIzaSyD8sX4ucDUisTsF8TF8G5DFEbNudUYxAVc",
+            authDomain: "skilli-issues-of-thevann.firebaseapp.com",
+            projectId: "skilli-issues-of-thevann",
+            storageBucket: "skilli-issues-of-thevann.firebasestorage.app",
+            messagingSenderId: "258351428928",
+            appId: "1:258351428928:web:2124cb333a5387f2a4f6a5",
+            measurementId: "G-KS24KRZXSJ"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const provider = new GoogleAuthProvider();
+
+        let currentUser = null;
+        let trades = [];
+        let viewDate = new Date();
+        let mode = 'SPOT';
+
+        // --- AUTH ---
+        window.signIn = () => signInWithPopup(auth, provider).catch(e => alert(e.message));
+        window.logOut = () => signOut(auth);
+
+        onAuthStateChanged(auth, (user) => {
+            const loading = document.getElementById('loadingOverlay');
+            const authScreen = document.getElementById('authOverlay');
+            const appScreen = document.getElementById('appContainer');
+
+            loading.style.opacity = '0';
+            setTimeout(() => loading.style.display = 'none', 500);
+
+            currentUser = user;
+            if (user) {
+                // LOGGED IN: Show App, Hide Auth
+                authScreen.style.opacity = '0';
+                setTimeout(() => authScreen.style.display = 'none', 500);
+                
+                appScreen.style.opacity = '1';
+                document.getElementById('userEmail').innerText = user.email;
+                listenToTrades();
+            } else {
+                // LOGGED OUT: Show Auth, Hide App
+                authScreen.style.display = 'flex';
+                setTimeout(() => authScreen.style.opacity = '1', 10);
+                
+                appScreen.style.opacity = '0';
+                trades = [];
+            }
+        });
+
+        // --- DATABASE ---
+        function listenToTrades() {
+            if(!currentUser) return;
+            const q = query(collection(db, "trades"), where("uid", "==", currentUser.uid), orderBy("date", "desc"));
+            onSnapshot(q, (snapshot) => {
+                trades = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                render();
+            });
+        }
+
+        window.addTrade = async () => {
+            if(!currentUser) return alert("Please login first");
+            const trade = {
+                uid: currentUser.uid,
+                pair: document.getElementById('inpPair').value.toUpperCase(),
+                size: parseFloat(document.getElementById('inpSize').value),
+                entry: parseFloat(document.getElementById('inpEntry').value),
+                exit: parseFloat(document.getElementById('inpExit').value),
+                date: document.getElementById('inpDate').value,
+                reason: document.getElementById('inpReason').value,
+                tp: document.getElementById('inpTP').value,
+                sl: document.getElementById('inpSL').value,
+                type: mode,
+                side: document.getElementById('inpSide').value,
+                leverage: parseFloat(document.getElementById('inpLev').value) || 1,
+                pnl: 0 
+            };
+
+            if(!trade.pair || !trade.entry || !trade.exit) return alert("Fill required fields");
+
+            if (mode === 'SPOT') {
+                trade.pnl = (trade.exit - trade.entry) * (trade.size / trade.entry);
+            } else if (mode === 'FUTURES') {
+                const qty = (trade.size * trade.leverage) / trade.entry;
+                trade.pnl = trade.side === 'LONG' ? (trade.exit - trade.entry) * qty : (trade.entry - trade.exit) * qty;
+            } else if (mode === 'FOREX') {
+                const units = trade.size * 100000;
+                trade.pnl = trade.side === 'LONG' ? (trade.exit - trade.entry) * units : (trade.entry - trade.exit) * units;
+            }
+
+            try {
+                await addDoc(collection(db, "trades"), trade);
+                document.getElementById('inpEntry').value = "";
+                document.getElementById('inpExit').value = "";
+                document.getElementById('inpReason').value = "";
+                if(window.innerWidth <= 900) toggleSidebar();
+            } catch (e) { alert("Error: " + e.message); }
+        };
+
+        window.deleteTrade = async (id) => { if(confirm("Delete log?")) await deleteDoc(doc(db, "trades", id)); };
+
+        // --- UI & THEMES ---
+        window.toggleSidebar = () => document.getElementById('sidebar').classList.toggle('open');
+        
+        window.setMode = (m) => {
+            mode = m;
+            document.getElementById('btnSpot').className = m==='SPOT'?'toggle-btn active':'toggle-btn';
+            document.getElementById('btnFut').className = m==='FUTURES'?'toggle-btn active':'toggle-btn';
+            document.getElementById('btnForex').className = m==='FOREX'?'toggle-btn active':'toggle-btn';
+            
+            const futEls = document.querySelectorAll('.fut-hidden');
+            const levEl = document.getElementById('inpLev').parentElement;
+            
+            if(m === 'SPOT') {
+                futEls.forEach(el => el.classList.add('hidden'));
+                document.getElementById('lblSize').innerText = "Invested ($)";
+                document.getElementById('inpSize').placeholder = "0.00";
+            } else if(m === 'FUTURES') {
+                futEls.forEach(el => el.classList.remove('hidden'));
+                document.getElementById('lblSize').innerText = "Margin ($)";
+                document.getElementById('inpSize').placeholder = "0.00";
+            } else {
+                futEls.forEach(el => el.classList.remove('hidden'));
+                levEl.classList.add('hidden'); // Hide leverage for Forex
+                document.getElementById('lblSize').innerText = "Lots";
+                document.getElementById('inpSize').placeholder = "1.0";
+            }
+        };
+
+        const themes = ['midnight', 'cyber', 'forest', 'light'];
+        let tIdx = 0;
+        const savedTheme = localStorage.getItem('theme');
+        if(savedTheme) { tIdx = themes.indexOf(savedTheme); if(tIdx === -1) tIdx = 0; }
+        
+        window.cycleTheme = () => {
+            tIdx = (tIdx + 1) % themes.length;
+            const newTheme = themes[tIdx];
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeText(newTheme);
+        };
+
+        function updateThemeText(theme) {
+            const names = { 'midnight': 'Midnight', 'cyber': 'Cyber', 'forest': 'Forest', 'light': 'Day' };
+            const icons = { 'midnight': '🌑', 'cyber': '🟣', 'forest': '🌲', 'light': '☀️' };
+            document.getElementById('themeName').innerText = `(${names[theme]})`;
+            document.getElementById('themeIcon').innerText = icons[theme];
+        }
+        
+        document.body.setAttribute('data-theme', themes[tIdx]);
+        updateThemeText(themes[tIdx]);
+
+        window.changeMonth = (d) => { viewDate.setMonth(viewDate.getMonth() + d); render(); };
+        window.goToToday = () => { viewDate = new Date(); render(); };
+
+        function formatMoney(num) { return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(num); }
+
+        function render() {
+            const mNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            document.getElementById('dateDisplay').innerText = `${mNames[viewDate.getMonth()]} ${viewDate.getFullYear()}`;
+
+            const filtered = trades.filter(t => {
+                const d = new Date(t.date);
+                return d.getMonth() === viewDate.getMonth() && d.getFullYear() === viewDate.getFullYear();
+            });
+
+            let total=0, wins=0, spot=0, fut=0, forex=0;
+            filtered.forEach(t => {
+                total += t.pnl;
+                if(t.pnl > 0) wins++;
+                if(t.type === 'SPOT') spot += t.pnl;
+                else if(t.type === 'FUTURES') fut += t.pnl;
+                else forex += t.pnl;
+            });
+
+            document.getElementById('s_pnl').innerText = formatMoney(total);
+            document.getElementById('s_pnl').style.color = total >= 0 ? 'var(--success)' : 'var(--danger)';
+            document.getElementById('s_wr').innerText = filtered.length ? Math.round((wins/filtered.length)*100)+"%" : "0%";
+            document.getElementById('wr_bar').style.width = filtered.length ? Math.round((wins/filtered.length)*100)+"%" : "0%";
+            document.getElementById('wr_bar').style.backgroundColor = (wins/filtered.length) >= 0.5 ? 'var(--success)' : 'var(--danger)';
+            
+            const updateC = (id, v) => {
+                const el = document.getElementById(id);
+                el.innerText = formatMoney(v);
+                el.style.color = v >= 0 ? 'var(--success)' : 'var(--danger)';
+                if(v===0) el.style.color = 'var(--text-muted)';
+            };
+            updateC('s_spot', spot); updateC('s_fut', fut); updateC('s_forex', forex);
+
+            const tbody = document.getElementById('tableBody');
+            const mList = document.getElementById('mobileList');
+            tbody.innerHTML = ""; mList.innerHTML = "";
+
+            if(filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;">No trades found.</td></tr>`;
+                mList.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-muted);">No trades found.</div>`;
+                return;
+            }
+
+            filtered.forEach(t => {
+                const d = new Date(t.date);
+                const dateStr = `${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+                const pnlClass = t.pnl >= 0 ? 'text-green' : 'text-red';
+                const pnlStr = (t.pnl>=0?'+':'') + formatMoney(t.pnl);
+                const extra = t.type==='FUTURES' ? `${t.leverage}x` : (t.type==='FOREX' ? `${t.size} Lot` : '');
+                
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${dateStr}</td>
+                        <td style="font-weight:bold; color:var(--text-main);">${t.pair}</td>
+                        <td><span class="badge ${t.side}">${t.side}</span> ${t.type} ${extra}</td>
+                        <td><span style="font-size:0.75rem;">${t.tp?`TP:${t.tp}`:''} ${t.sl?`SL:${t.sl}`:''}</span></td>
+                        <td>${t.entry}</td>
+                        <td>${t.exit}</td>
+                        <td class="${pnlClass}" style="font-weight:bold;">${pnlStr}</td>
+                        <td><button onclick="deleteTrade('${t.id}')" class="btn-text">x</button></td>
+                    </tr>
+                `;
+                
+                mList.innerHTML += `
+                    <div class="m-card">
+                        <div style="display:flex; justify-content:space-between;">
+                            <span style="font-weight:bold; font-size:1.1rem; color:var(--text-main);">${t.pair}</span>
+                            <span class="${pnlClass}" style="font-weight:bold;">${pnlStr}</span>
+                        </div>
+                        <div style="font-size:0.8rem; color:var(--text-muted); margin-top:5px;">
+                            ${t.side} | ${t.type} ${extra} | ${dateStr}
+                        </div>
+                        ${(t.tp || t.sl) ? `<div style="font-size:0.75rem; margin-top:5px; color:var(--text-muted);">TP: ${t.tp || '-'} | SL: ${t.sl || '-'}</div>` : ''}
+                        <div style="font-size:0.8rem; margin-top:5px; padding-top:5px; border-top:1px solid var(--border);">
+                            ${t.reason}
+                        </div>
+                        <button onclick="deleteTrade('${t.id}')" style="margin-top:10px; width:100%; padding:5px; background:var(--bg-input); border:none; color:var(--text-muted);">Delete</button>
+                    </div>
+                `;
+            });
+        }
+
+        const n = new Date();
+        n.setMinutes(n.getMinutes() - n.getTimezoneOffset());
+        document.getElementById('inpDate').value = n.toISOString().slice(0, 16);
+    </script>
+</body>
+</html>
